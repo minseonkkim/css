@@ -28,10 +28,14 @@ ruleTester.run("relative-font-units", rule, {
 		"a { font-size: 1rem; }",
 		"a { font: 2rem Arial, sans-serif; }",
 		"a { font: 1.2rem/2 Arial, sans-serif; }",
+		"a { font: oblique 10deg 1rem serif; }",
+		"a { font: 1rem math; }",
 		"a { font-size: 1REM; }",
 		"a { font-size: 1Rem; }",
 		"a { font-size: 1rEm; }",
+		"a { FONT-SIZE: 1rEm; }",
 		"a { font: 2REM Arial, sans-serif; }",
+		"a { FONT: 2REM Arial, sans-serif; }",
 		"a { font: 1.2REM/2 Arial, sans-serif; }",
 		"a { font-size: var(--foo); }",
 		"a { font: var(--foo) Arial; }",
@@ -337,6 +341,23 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 19,
+					data: { allowedFontUnits: "rem" },
+				},
+			],
+		},
+		{
+			code: "a { FONT-SIZE: 1PX; }",
+			errors: [
+				{
+					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 19,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -346,6 +367,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 19,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -360,6 +385,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 20,
 					data: { allowedFontUnits: "em" },
 				},
 			],
@@ -374,6 +403,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 19,
 					data: { allowedFontUnits: "em" },
 				},
 			],
@@ -388,6 +421,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 19,
 					data: { allowedFontUnits: "%" },
 				},
 			],
@@ -402,6 +439,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 20,
 					data: { allowedFontUnits: "cap" },
 				},
 			],
@@ -416,6 +457,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 20,
 					data: { allowedFontUnits: "ch" },
 				},
 			],
@@ -430,6 +475,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 20,
 					data: { allowedFontUnits: "ex" },
 				},
 			],
@@ -444,6 +493,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 20,
 					data: { allowedFontUnits: "ic" },
 				},
 			],
@@ -458,6 +511,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 19,
 					data: { allowedFontUnits: "em" },
 				},
 			],
@@ -472,6 +529,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 20,
 					data: { allowedFontUnits: "lh" },
 				},
 			],
@@ -486,6 +547,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 19,
 					data: { allowedFontUnits: "rcap" },
 				},
 			],
@@ -500,6 +565,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 19,
 					data: { allowedFontUnits: "rch" },
 				},
 			],
@@ -514,6 +583,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 19,
 					data: { allowedFontUnits: "rex" },
 				},
 			],
@@ -528,6 +601,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 20,
 					data: { allowedFontUnits: "ric" },
 				},
 			],
@@ -542,6 +619,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 19,
 					data: { allowedFontUnits: "rlh" },
 				},
 			],
@@ -563,6 +644,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 2,
+					column: 16,
+					endLine: 2,
+					endColumn: 20,
 					data: { allowedFontUnits: "em" },
 				},
 			],
@@ -582,6 +667,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 2,
+					column: 16,
+					endLine: 2,
+					endColumn: 20,
 					data: { allowedFontUnits: "em" },
 				},
 			],
@@ -591,6 +680,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 19,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -600,6 +693,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 19,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -609,6 +706,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 19,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -618,6 +719,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 19,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -627,6 +732,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 19,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -636,6 +745,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 19,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -646,6 +759,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 19,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -656,6 +773,23 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 14,
+					data: { allowedFontUnits: "rem" },
+				},
+			],
+		},
+		{
+			code: "a { font: oblique 10deg 1em serif; }",
+			errors: [
+				{
+					messageId: "allowedFontUnits",
+					line: 1,
+					column: 25,
+					endLine: 1,
+					endColumn: 28,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -665,6 +799,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 24,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -674,6 +812,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 19,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -683,6 +825,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 23,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -692,6 +838,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 18,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -701,6 +851,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 21,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -710,6 +864,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 16,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -719,6 +877,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 22,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -728,6 +890,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 17,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -737,6 +903,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 21,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -746,6 +916,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 16,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -755,6 +929,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 23,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -764,6 +942,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 18,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -773,6 +955,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 24,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -782,6 +968,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 19,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -791,6 +981,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 25,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -800,6 +994,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 20,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -809,6 +1007,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 20,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -818,6 +1020,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 15,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -836,6 +1042,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 2,
+					column: 11,
+					endLine: 2,
+					endColumn: 15,
 					data: { allowedFontUnits: "em" },
 				},
 			],
@@ -854,6 +1064,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 2,
+					column: 11,
+					endLine: 2,
+					endColumn: 14,
 					data: { allowedFontUnits: "em" },
 				},
 			],
@@ -872,6 +1086,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 2,
+					column: 11,
+					endLine: 2,
+					endColumn: 15,
 					data: { allowedFontUnits: "em" },
 				},
 			],
@@ -890,6 +1108,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 2,
+					column: 11,
+					endLine: 2,
+					endColumn: 14,
 					data: { allowedFontUnits: "%" },
 				},
 			],
@@ -908,6 +1130,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 2,
+					column: 11,
+					endLine: 2,
+					endColumn: 16,
 					data: { allowedFontUnits: "%" },
 				},
 			],
@@ -926,6 +1152,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 2,
+					column: 16,
+					endLine: 2,
+					endColumn: 20,
 					data: { allowedFontUnits: "%, em" },
 				},
 			],
@@ -947,6 +1177,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 5,
+					column: 16,
+					endLine: 5,
+					endColumn: 19,
 					data: { allowedFontUnits: "rem, rex" },
 				},
 			],
@@ -969,6 +1203,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 6,
+					column: 16,
+					endLine: 6,
+					endColumn: 19,
 					data: { allowedFontUnits: "rem, rex, %" },
 				},
 			],
@@ -987,7 +1225,24 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 2,
+					column: 23,
+					endLine: 2,
+					endColumn: 27,
 					data: { allowedFontUnits: "lh, rex, %" },
+				},
+			],
+		},
+		{
+			code: "a { FONT: 2EM Arial, sans-serif; }",
+			errors: [
+				{
+					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 14,
+					data: { allowedFontUnits: "rem" },
 				},
 			],
 		},
@@ -1000,6 +1255,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 2,
+					column: 23,
+					endLine: 2,
+					endColumn: 28,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1013,6 +1272,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 2,
+					column: 38,
+					endLine: 2,
+					endColumn: 43,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1026,6 +1289,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 2,
+					column: 43,
+					endLine: 2,
+					endColumn: 47,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1040,6 +1307,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 3,
+					column: 16,
+					endLine: 3,
+					endColumn: 20,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1049,6 +1320,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 24,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1058,6 +1333,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 19,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1067,6 +1346,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 23,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1076,6 +1359,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 18,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1085,6 +1372,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 21,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1094,6 +1385,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 16,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1103,6 +1398,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 22,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1112,6 +1411,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 17,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1121,6 +1424,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 21,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1130,6 +1437,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 16,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1139,6 +1450,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 23,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1148,6 +1463,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 18,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1157,6 +1476,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 24,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1166,6 +1489,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 19,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1175,6 +1502,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 25,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1184,6 +1515,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 20,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1193,6 +1528,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 20,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1202,6 +1541,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 15,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1211,6 +1554,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 24,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1220,6 +1567,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 19,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1229,6 +1580,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 23,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1238,6 +1593,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 18,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1247,6 +1606,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 21,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1256,6 +1619,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 16,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1265,6 +1632,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 18,
+					endLine: 1,
+					endColumn: 23,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1274,6 +1645,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 22,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1283,6 +1658,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 17,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1292,6 +1671,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 21,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1301,6 +1684,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 16,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1310,6 +1697,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 23,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1319,6 +1710,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 18,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1328,6 +1723,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 24,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1337,6 +1736,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 19,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1346,6 +1749,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 25,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1355,6 +1762,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 20,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1364,6 +1775,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 20,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
@@ -1373,6 +1788,10 @@ ruleTester.run("relative-font-units", rule, {
 			errors: [
 				{
 					messageId: "allowedFontUnits",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 15,
 					data: { allowedFontUnits: "rem" },
 				},
 			],
