@@ -9,8 +9,8 @@
 
 /**
  * @import { CSSRuleDefinition } from "../types.js"
- * @typedef {"duplicateKeyframeSelector"} DuplicateKeyframeSelectorMessageIds
- * @typedef {CSSRuleDefinition<{ RuleOptions: [], MessageIds: DuplicateKeyframeSelectorMessageIds }>} DuplicateKeyframeSelectorRuleDefinition
+ * @typedef {"duplicateKeyframeSelector"} NoDuplicateKeyframeSelectorsMessageIds
+ * @typedef {CSSRuleDefinition<{ RuleOptions: [], MessageIds: NoDuplicateKeyframeSelectorsMessageIds }>} NoDuplicateKeyframeSelectorsRuleDefinition
  */
 
 //-----------------------------------------------------------------------------
@@ -26,7 +26,7 @@ const keyframeSelectorAliases = new Map([
 // Rule Definition
 //-----------------------------------------------------------------------------
 
-export default /** @satisfies {DuplicateKeyframeSelectorRuleDefinition} */ ({
+export default /** @satisfies {NoDuplicateKeyframeSelectorsRuleDefinition} */ ({
 	meta: {
 		type: "problem",
 		languages: ["css/css"],
@@ -49,12 +49,12 @@ export default /** @satisfies {DuplicateKeyframeSelectorRuleDefinition} */ ({
 		const seen = new Set();
 
 		return {
-			"Atrule[name=/^(-(o|moz|webkit)-)?keyframes$/i]"() {
+			"Atrule[name=/^(-(o|ms|moz|webkit)-)?keyframes$/i]"() {
 				insideKeyframes = true;
 				seen.clear();
 			},
 
-			"Atrule[name=/^(-(o|moz|webkit)-)?keyframes$/i]:exit"() {
+			"Atrule[name=/^(-(o|ms|moz|webkit)-)?keyframes$/i]:exit"() {
 				insideKeyframes = false;
 			},
 
@@ -71,17 +71,16 @@ export default /** @satisfies {DuplicateKeyframeSelectorRuleDefinition} */ ({
 						if (component.type === "Percentage") {
 							value.push(`${component.value}%`);
 						} else if (component.type === "TypeSelector") {
-							value.push(component.name.toLowerCase());
+							value.push(component.name);
 						}
 					});
 
 					const selectorValue = value.join(" ");
 					const key = value
-						.map(
-							selectorPart =>
-								keyframeSelectorAliases.get(selectorPart) ??
-								selectorPart,
-						)
+						.map(selectorPart => {
+							const part = selectorPart.toLowerCase();
+							return keyframeSelectorAliases.get(part) ?? part;
+						})
 						.join(" ");
 
 					if (seen.has(key)) {

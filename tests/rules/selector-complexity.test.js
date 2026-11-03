@@ -110,6 +110,30 @@ ruleTester.run("selector-complexity", rule, {
 			options: [{ maxPseudoClasses: 1 }],
 		},
 		{
+			code: "a:before {}",
+			options: [{ maxPseudoClasses: 0 }],
+		},
+		{
+			code: "a:after {}",
+			options: [{ maxPseudoClasses: 0 }],
+		},
+		{
+			code: "p:first-line {}",
+			options: [{ maxPseudoClasses: 0 }],
+		},
+		{
+			code: "p:first-letter {}",
+			options: [{ maxPseudoClasses: 0 }],
+		},
+		{
+			code: "a:hover:before {}",
+			options: [{ maxPseudoClasses: 1 }],
+		},
+		{
+			code: "a:AFTER {}",
+			options: [{ maxPseudoClasses: 0 }],
+		},
+		{
 			code: "* {}",
 			options: [{ maxUniversals: 1 }],
 		},
@@ -162,12 +186,32 @@ ruleTester.run("selector-complexity", rule, {
 			options: [{ disallowPseudoClasses: ["active"] }],
 		},
 		{
+			code: "a:before {}",
+			options: [{ disallowPseudoClasses: ["before"] }],
+		},
+		{
+			code: "a:after {}",
+			options: [{ disallowPseudoClasses: ["after"] }],
+		},
+		{
+			code: "p:first-line {}",
+			options: [{ disallowPseudoClasses: ["first-line"] }],
+		},
+		{
+			code: "p:first-letter {}",
+			options: [{ disallowPseudoClasses: ["first-letter"] }],
+		},
+		{
 			code: ".foo::before {}",
 			options: [{ disallowPseudoElements: ["placeholder"] }],
 		},
 		{
 			code: ".foo::before, .bar::after {}",
 			options: [{ disallowPseudoElements: ["marker"] }],
+		},
+		{
+			code: "a:before {}",
+			options: [{ disallowPseudoElements: ["after"] }],
 		},
 		{
 			code: "[name='foo'] {}",
@@ -188,6 +232,54 @@ ruleTester.run("selector-complexity", rule, {
 		{
 			code: ".foo[class^='foo'] > .bar[name*='bar'] {}",
 			options: [{ disallowAttributeMatchers: ["=", "$="] }],
+		},
+		{
+			code: "@keyframes fade { from {} to {} }",
+			options: [{ maxTypes: 0 }],
+		},
+		{
+			code: "@keyframes reveal { entry 0% {} exit 100% {} }",
+			options: [{ maxCompounds: 1 }],
+		},
+		{
+			code: "@keyframes reveal { entry 0% {} exit 100% {} }",
+			options: [{ disallowCombinators: [" "] }],
+		},
+		{
+			code: "@-webkit-keyframes fade { from {} to {} }",
+			options: [{ maxTypes: 0 }],
+		},
+		{
+			code: "@-moz-keyframes fade { from {} to {} }",
+			options: [{ maxTypes: 0 }],
+		},
+		{
+			code: "@-o-keyframes fade { from {} to {} }",
+			options: [{ maxTypes: 0 }],
+		},
+		{
+			code: "@-ms-keyframes fade { from {} to {} }",
+			options: [{ maxTypes: 0 }],
+		},
+		{
+			code: "@KEYFRAMES fade { FROM {} TO {} }",
+			options: [{ maxTypes: 0 }],
+		},
+		{
+			code: "@page chapter {}",
+			options: [{ maxTypes: 0 }],
+		},
+		{
+			code: "@page :first {}",
+			options: [{ maxPseudoClasses: 0 }],
+		},
+		{
+			code: "@page :first {}",
+			options: [{ disallowPseudoClasses: ["first"] }],
+		},
+		{
+			code: "@PAGE chapter {}",
+			options: [{ maxTypes: 0 }],
 		},
 	],
 	invalid: [
@@ -409,6 +501,23 @@ ruleTester.run("selector-complexity", rule, {
 					column: 1,
 					endLine: 1,
 					endColumn: 27,
+				},
+			],
+		},
+		{
+			code: "a:hover:focus:before {}",
+			options: [{ maxPseudoClasses: 1 }],
+			errors: [
+				{
+					messageId: "maxSelectors",
+					data: {
+						selector: "pseudo-class",
+						limit: 1,
+					},
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 21,
 				},
 			],
 		},
@@ -763,6 +872,136 @@ ruleTester.run("selector-complexity", rule, {
 			],
 		},
 		{
+			code: "a:before {}",
+			options: [{ disallowPseudoElements: ["before"] }],
+			errors: [
+				{
+					messageId: "disallowedSelectors",
+					data: {
+						selectorName: "before",
+						selector: "pseudo-element",
+					},
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 9,
+				},
+			],
+		},
+		{
+			code: "a:after {}",
+			options: [{ disallowPseudoElements: ["after"] }],
+			errors: [
+				{
+					messageId: "disallowedSelectors",
+					data: {
+						selectorName: "after",
+						selector: "pseudo-element",
+					},
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 8,
+				},
+			],
+		},
+		{
+			code: "p:first-line {}",
+			options: [{ disallowPseudoElements: ["first-line"] }],
+			errors: [
+				{
+					messageId: "disallowedSelectors",
+					data: {
+						selectorName: "first-line",
+						selector: "pseudo-element",
+					},
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "p:first-letter {}",
+			options: [{ disallowPseudoElements: ["first-letter"] }],
+			errors: [
+				{
+					messageId: "disallowedSelectors",
+					data: {
+						selectorName: "first-letter",
+						selector: "pseudo-element",
+					},
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 15,
+				},
+			],
+		},
+		{
+			code: "a:AFTER {}",
+			options: [{ disallowPseudoElements: ["after"] }],
+			errors: [
+				{
+					messageId: "disallowedSelectors",
+					data: {
+						selectorName: "AFTER",
+						selector: "pseudo-element",
+					},
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 8,
+				},
+			],
+		},
+		{
+			code: "li:first-letter {}",
+			options: [{ disallowPseudoElements: ["FIRST-LETTER"] }],
+			errors: [
+				{
+					messageId: "disallowedSelectors",
+					data: {
+						selectorName: "first-letter",
+						selector: "pseudo-element",
+					},
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 16,
+				},
+			],
+		},
+		{
+			code: "p:first-line, p::first-line {}",
+			options: [{ disallowPseudoElements: ["first-line"] }],
+			errors: [
+				{
+					messageId: "disallowedSelectors",
+					data: {
+						selectorName: "first-line",
+						selector: "pseudo-element",
+					},
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 13,
+				},
+				{
+					messageId: "disallowedSelectors",
+					data: {
+						selectorName: "first-line",
+						selector: "pseudo-element",
+					},
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 28,
+				},
+			],
+		},
+		{
 			code: "[class*='foo'] {}",
 			options: [{ disallowAttributes: ["class"] }],
 			errors: [
@@ -793,6 +1032,90 @@ ruleTester.run("selector-complexity", rule, {
 					column: 5,
 					endLine: 1,
 					endColumn: 8,
+				},
+			],
+		},
+		{
+			code: "[data-foo][data-bar][data-foo] {}",
+			options: [{ disallowAttributes: ["data-foo"] }],
+			errors: [
+				{
+					messageId: "disallowedSelectors",
+					data: {
+						selectorName: "data-foo",
+						selector: "attribute",
+					},
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 10,
+				},
+				{
+					messageId: "disallowedSelectors",
+					data: {
+						selectorName: "data-foo",
+						selector: "attribute",
+					},
+					line: 1,
+					column: 22,
+					endLine: 1,
+					endColumn: 30,
+				},
+			],
+		},
+		{
+			code: "[alt] img[alt] {}",
+			options: [{ disallowAttributes: ["alt"] }],
+			errors: [
+				{
+					messageId: "disallowedSelectors",
+					data: {
+						selectorName: "alt",
+						selector: "attribute",
+					},
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 5,
+				},
+				{
+					messageId: "disallowedSelectors",
+					data: {
+						selectorName: "alt",
+						selector: "attribute",
+					},
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 14,
+				},
+			],
+		},
+		{
+			code: "a[href][href*='x'] {}",
+			options: [{ disallowAttributes: ["href"] }],
+			errors: [
+				{
+					messageId: "disallowedSelectors",
+					data: {
+						selectorName: "href",
+						selector: "attribute",
+					},
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 7,
+				},
+				{
+					messageId: "disallowedSelectors",
+					data: {
+						selectorName: "href",
+						selector: "attribute",
+					},
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -844,6 +1167,40 @@ ruleTester.run("selector-complexity", rule, {
 					column: 11,
 					endLine: 1,
 					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "@keyframes fade { from {} to {} } a b {}",
+			options: [{ maxTypes: 1 }],
+			errors: [
+				{
+					messageId: "maxSelectors",
+					data: {
+						selector: "type",
+						limit: 1,
+					},
+					line: 1,
+					column: 35,
+					endLine: 1,
+					endColumn: 38,
+				},
+			],
+		},
+		{
+			code: "@page chapter {} a b {}",
+			options: [{ maxTypes: 1 }],
+			errors: [
+				{
+					messageId: "maxSelectors",
+					data: {
+						selector: "type",
+						limit: 1,
+					},
+					line: 1,
+					column: 18,
+					endLine: 1,
+					endColumn: 21,
 				},
 			],
 		},

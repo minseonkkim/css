@@ -25,7 +25,7 @@ While using only Baseline widely available features can help ensure the greatest
 This rule warns when it finds any of the following:
 
 - A CSS property that isn't widely available or otherwise isn't enclosed in a `@supports` block.
-- An at-rule that isn't widely available.
+- An at-rule that isn't widely available or isn't guarded by a matching `@supports at-rule()` query.
 - A media condition inside `@media` that isn't widely available.
 - A CSS property value that isn't widely available or otherwise isn't enclosed in a `@supports` block (currently limited to identifiers only).
 - A CSS property function that isn't widely available.
@@ -100,11 +100,20 @@ Examples of **correct** code:
 		accent-color: auto;
 	}
 }
+
+/* valid - @supports indicates you're choosing a limited availability at-rule */
+@supports at-rule(@scope) {
+	@scope (.card) {
+		a {
+			color: red;
+		}
+	}
+}
 ```
 
 **Important:** While the `cursor` property is not considered baseline, it has wide support and will likely be considered baseline once the WebDX Community Group adds [an editorial step](https://github.com/web-platform-dx/web-features/issues/1038). In the meantime, this rule does not warn when `cursor` is used.
 
-### Options
+## Options
 
 This rule accepts an options object with the following properties:
 
@@ -119,7 +128,7 @@ This rule accepts an options object with the following properties:
 - `allowSelectors` (default: `[]`) - Specify an array of selectors that are allowed to be used.
 - `allowUnits` (default: `[]`) - Specify an array of CSS units that are allowed to be used.
 
-#### `allowAtRules`
+### `allowAtRules`
 
 Examples of **correct** code with `{ allowAtRules: ["container"] }`:
 
@@ -133,7 +142,7 @@ Examples of **correct** code with `{ allowAtRules: ["container"] }`:
 }
 ```
 
-#### `allowFunctions`
+### `allowFunctions`
 
 Examples of **correct** code with `{ allowFunctions: ["color-mix"] }`:
 
@@ -145,7 +154,7 @@ Examples of **correct** code with `{ allowFunctions: ["color-mix"] }`:
 }
 ```
 
-#### `allowMediaConditions`
+### `allowMediaConditions`
 
 Examples of **correct** code with `{ allowMediaConditions: ["scripting"] }`:
 
@@ -159,7 +168,7 @@ Examples of **correct** code with `{ allowMediaConditions: ["scripting"] }`:
 }
 ```
 
-#### `allowProperties`
+### `allowProperties`
 
 Examples of **correct** code with `{ allowProperties: ["user-select"] }`:
 
@@ -171,7 +180,7 @@ Examples of **correct** code with `{ allowProperties: ["user-select"] }`:
 }
 ```
 
-#### `allowPropertyValues`
+### `allowPropertyValues`
 
 Examples of **correct** code with `{ allowPropertyValues: { "clip-path": ["fill-box"] } }`:
 
@@ -183,7 +192,7 @@ Examples of **correct** code with `{ allowPropertyValues: { "clip-path": ["fill-
 }
 ```
 
-#### `allowSelectors`
+### `allowSelectors`
 
 When you want to allow the [& nesting selector](https://developer.mozilla.org/en-US/docs/Web/CSS/Nesting_selector), you can use `"nesting"`.
 
@@ -209,7 +218,7 @@ h1:fullscreen {
 }
 ```
 
-#### `allowUnits`
+### `allowUnits`
 
 Examples of **correct** code with `{ allowUnits: ["svh"] }`:
 

@@ -29,6 +29,14 @@ ruleTester.run("no-invalid-at-rules", rule, {
 		"@font-face { font-family: 'MyFont'; src: url('myfont.woff2') format('woff2'); }",
 		"@keyframes slidein { from { transform: translateX(0%); } to { transform: translateX(100%); } }",
 		"@supports (display: grid) { .grid-container { display: grid; } }",
+		"@supports not (not (transform-origin: 2px)) {}",
+		"@supports selector(.example) {}",
+		"@supports font-tech(color-COLRv1) {}",
+		"@supports font-format(opentype) {}",
+		'@supports font-format("woff2") {}',
+		"@supports at-rule(@scope) {}",
+		"@supports named-feature(anchor-position-follows-transforms) {}",
+		"@supports env(safe-area-inset-top) {}",
 		"@namespace url(http://www.w3.org/1999/xhtml);",
 		'@charset "UTF-8";',
 		'@charset "UTF-8"; @import url("foo.css");',
@@ -42,9 +50,13 @@ ruleTester.run("no-invalid-at-rules", rule, {
 		".foo { @starting-style { opacity: 0; transform: translateY(-10px); } }",
 		".foo { @media (min-width: 768px) { color: red; @media (orientation: landscape) { background: blue; @supports (display: flex) { display: flex; } } } }",
 		"@property --my-color { syntax: '<color>'; inherits: false; initial-value: #c0ffee; }",
+		"@page { size: landscape; margin: 1in; margin-top: 1in; margin-right: 1in; margin-bottom: 1in; margin-left: 1in; }",
 		"@media (max-width: 800px) { .foo { color: red; } }",
 		".foo { @media (max-width: 800px) { & .bar { color: red; } &:hover { background: blue; } } }",
 		"@layer base { .foo { color: red; } }",
+		"@supports (color: var(--x)) {}",
+		"@supports (padding: env(safe-area-inset-top)) {}",
+		"@page { margin: env(safe-area-inset-top); }",
 		{
 			code: "@foobar url(foo.css) { body { font-size: 12px } }",
 			languageOptions: {
@@ -94,6 +106,41 @@ ruleTester.run("no-invalid-at-rules", rule, {
 				},
 			},
 		},
+		"@page { @top-left { content: 'x'; } }",
+		"@page { size: A4; @top-center { content: counter(page); } }",
+		"@page :first { @top-right { content: 'x'; } }",
+		"@media print { @page { @bottom-left { content: 'x'; } } }",
+		"@page { @top-left { --custom: red; } }",
+		"@PAGE { @TOP-LEFT { content: 'x'; } }",
+		`@page {
+			@top-left-corner { content: 'x'; }
+			@top-left { content: 'x'; }
+			@top-center { content: 'x'; }
+			@top-right { content: 'x'; }
+			@top-right-corner { content: 'x'; }
+			@bottom-left-corner { content: 'x'; }
+			@bottom-left { content: 'x'; }
+			@bottom-center { content: 'x'; }
+			@bottom-right { content: 'x'; }
+			@bottom-right-corner { content: 'x'; }
+			@left-top { content: 'x'; }
+			@left-middle { content: 'x'; }
+			@left-bottom { content: 'x'; }
+			@right-top { content: 'x'; }
+			@right-middle { content: 'x'; }
+			@right-bottom { content: 'x'; }
+		}`,
+		"@font-feature-values Font One { @styleset { nice-style: 12; } }",
+		"@font-feature-values Font One, Font Two { @character-variant { alt-a: 2 1; } }",
+		`@font-feature-values Font One {
+			@stylistic { cursive: 1; }
+			@historical-forms { hist: 1; }
+			@styleset { double-W: 14; }
+			@character-variant { alt-a: 2; }
+			@swash { swishy: 1; }
+			@ornaments { bullets: 1; }
+			@annotation { circled: 1; }
+		}`,
 	],
 	invalid: [
 		{
@@ -530,6 +577,146 @@ ruleTester.run("no-invalid-at-rules", rule, {
 					column: 1,
 					endLine: 2,
 					endColumn: 7,
+				},
+			],
+		},
+		{
+			code: "@top-left { content: 'x'; }",
+			errors: [
+				{
+					messageId: "unknownAtRule",
+					data: { name: "top-left" },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 10,
+				},
+				{
+					messageId: "unknownDescriptor",
+					data: { name: "top-left", descriptor: "content" },
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 20,
+				},
+			],
+		},
+		{
+			code: ".foo { @top-left { content: 'x'; } }",
+			errors: [
+				{
+					messageId: "unknownAtRule",
+					data: { name: "top-left" },
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 17,
+				},
+				{
+					messageId: "unknownDescriptor",
+					data: { name: "top-left", descriptor: "content" },
+					line: 1,
+					column: 20,
+					endLine: 1,
+					endColumn: 27,
+				},
+			],
+		},
+		{
+			code: "@page { @swash { swishy: 1; } }",
+			errors: [
+				{
+					messageId: "unknownAtRule",
+					data: { name: "swash" },
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 15,
+				},
+				{
+					messageId: "unknownDescriptor",
+					data: { name: "swash", descriptor: "swishy" },
+					line: 1,
+					column: 18,
+					endLine: 1,
+					endColumn: 24,
+				},
+			],
+		},
+		{
+			code: "@font-feature-values Font One { @top-left { content: 'x'; } }",
+			errors: [
+				{
+					messageId: "unknownAtRule",
+					data: { name: "top-left" },
+					line: 1,
+					column: 33,
+					endLine: 1,
+					endColumn: 42,
+				},
+				{
+					messageId: "unknownDescriptor",
+					data: { name: "top-left", descriptor: "content" },
+					line: 1,
+					column: 45,
+					endLine: 1,
+					endColumn: 52,
+				},
+			],
+		},
+		{
+			code: "@page { @top-left foo { content: 'x'; } }",
+			errors: [
+				{
+					messageId: "invalidExtraPrelude",
+					data: { name: "top-left" },
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 18,
+				},
+			],
+		},
+		{
+			code: "@font-feature-values Font One { @styleset foo { nice-style: 12; } }",
+			errors: [
+				{
+					messageId: "invalidExtraPrelude",
+					data: { name: "styleset" },
+					line: 1,
+					column: 33,
+					endLine: 1,
+					endColumn: 42,
+				},
+			],
+		},
+		{
+			code: "@page { @top-left { content: 'x'; } }",
+			languageOptions: {
+				customSyntax: {
+					atrules: {
+						"top-left": {
+							prelude: "<url>",
+						},
+					},
+				},
+			},
+			errors: [
+				{
+					messageId: "missingPrelude",
+					data: { name: "top-left" },
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 18,
+				},
+				{
+					messageId: "unknownDescriptor",
+					data: { name: "top-left", descriptor: "content" },
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 28,
 				},
 			],
 		},

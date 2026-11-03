@@ -9,6 +9,7 @@
 
 /**
  * @import { CSSRuleDefinition } from "../types.js"
+ * @import { CssNodePlain, PseudoClassSelectorPlain, PseudoElementSelectorPlain } from "@eslint/css-tree"
  * @typedef {"maxSelectors" | "disallowedSelectors"} SelectorComplexityMessageIds
  * @typedef {[{
  *     maxIds?: number,
@@ -31,6 +32,50 @@
 //-----------------------------------------------------------------------------
 // Helpers
 //-----------------------------------------------------------------------------
+
+/**
+ * Pseudo-elements that can also be written with the legacy single-colon syntax.
+ * @see https://drafts.csswg.org/selectors/#pseudo-element-syntax
+ */
+const legacyPseudoElements = new Set([
+	"before",
+	"after",
+	"first-line",
+	"first-letter",
+]);
+
+/**
+ * Determines whether a pseudo-class selector node is a pseudo-element written
+ * with the legacy single-colon syntax.
+ * @param {PseudoClassSelectorPlain} node The pseudo-class selector node.
+ * @returns {boolean} `true` if the node is a legacy pseudo-element.
+ */
+function isLegacyPseudoElement(node) {
+	return legacyPseudoElements.has(node.name.toLowerCase());
+}
+
+/**
+ * Determines whether a node is a pseudo-class selector, excluding legacy
+ * single-colon pseudo-elements.
+ * @param {CssNodePlain} node The node to check.
+ * @returns {node is PseudoClassSelectorPlain} `true` if the node is a pseudo-class selector.
+ */
+function isPseudoClassSelector(node) {
+	return node.type === "PseudoClassSelector" && !isLegacyPseudoElement(node);
+}
+
+/**
+ * Determines whether a node is a pseudo-element selector, including legacy
+ * single-colon pseudo-elements.
+ * @param {CssNodePlain} node The node to check.
+ * @returns {node is PseudoClassSelectorPlain | PseudoElementSelectorPlain} `true` if the node is a pseudo-element selector.
+ */
+function isPseudoElementSelector(node) {
+	return (
+		node.type === "PseudoElementSelector" ||
+		(node.type === "PseudoClassSelector" && isLegacyPseudoElement(node))
+	);
+}
 
 /**
  * An error for exceeding the maximum allowed selectors of a specific type.
@@ -256,6 +301,9 @@ export default /** @satisfies {SelectorComplexityRuleDefinition} */ ({
 	},
 
 	create(context) {
+		let insideKeyframes = false;
+		let insidePage = false;
+
 		const [
 			{
 				maxIds,
@@ -281,7 +329,27 @@ export default /** @satisfies {SelectorComplexityRuleDefinition} */ ({
 		);
 
 		return {
+			"Atrule[name=/^(-(o|ms|moz|webkit)-)?keyframes$/i]"() {
+				insideKeyframes = true;
+			},
+
+			"Atrule[name=/^(-(o|ms|moz|webkit)-)?keyframes$/i]:exit"() {
+				insideKeyframes = false;
+			},
+
+			"Atrule[name=/^page$/i]"() {
+				insidePage = true;
+			},
+
+			"Atrule[name=/^page$/i]:exit"() {
+				insidePage = false;
+			},
+
 			Selector(node) {
+				if (insideKeyframes || insidePage) {
+					return;
+				}
+
 				const selectors = node.children;
 				const selectorLoc = node.loc;
 
@@ -295,9 +363,8 @@ export default /** @satisfies {SelectorComplexityRuleDefinition} */ ({
 					selectors,
 					"AttributeSelector",
 				);
-				const pseudoClassSelectors = getSelectors(
-					selectors,
-					"PseudoClassSelector",
+				const pseudoClassSelectors = selectors.filter(
+					isPseudoClassSelector,
 				);
 				const universalSelectors = selectors.filter(
 					child =>
@@ -306,11 +373,9 @@ export default /** @satisfies {SelectorComplexityRuleDefinition} */ ({
 				const combinatorNodes = getSelectors(selectors, "Combinator");
 
 				const combinators = getSelectorNames(combinatorNodes);
-				const pseudoElementSelectors = getSelectors(
-					selectors,
-					"PseudoElementSelector",
+				const pseudoElementSelectors = selectors.filter(
+					isPseudoElementSelector,
 				);
-				const attributeNames = attributeSelectors.map(s => s.name.name);
 				const attributeMatchers = attributeSelectors
 					.map(child => child.matcher)
 					.filter(Boolean);
@@ -434,16 +499,12 @@ export default /** @satisfies {SelectorComplexityRuleDefinition} */ ({
 				}
 
 				if (disallowAttributes.length > 0) {
-					let disallowAttributesLocation;
-					for (const attributeName of attributeNames) {
+					for (const selectorNode of attributeSelectors) {
+						const attributeName = selectorNode.name.name;
+
 						if (disallowAttributes.includes(attributeName)) {
-							disallowAttributesLocation =
-								attributeSelectors.find(
-									selector =>
-										selector.name.name === attributeName,
-								).name.loc;
 							context.report({
-								loc: disallowAttributesLocation,
+								loc: selectorNode.name.loc,
 								messageId: "disallowedSelectors",
 								data: {
 									selectorName: attributeName,

@@ -1,37 +1,37 @@
 # selector-complexity
 
-Limit and disallow the CSS selectors.
+Disallow and limit CSS selectors.
 
 ## Background
 
-The CSS selectors are used to target HTML elements so that styles can be applied to them. Selectors can target HTML element tags, IDs, classes, or attributes applied to elements. Selectors can use simple syntax, such as targeting only IDs, classes, or HTML tags, or more complex syntax by combining classes, IDs, attributes, pseudo-classes, pseudo-elements and combinators to match specific elements or groups of elements.
+CSS selectors are used to target HTML elements so that styles can be applied to them. Selectors can target HTML element tags, IDs, classes, or attributes applied to elements. Selectors can use simple syntax, such as targeting only IDs, classes, or HTML tags, or more complex syntax by combining classes, IDs, attributes, pseudo-classes, pseudo-elements and combinators to match specific elements or groups of elements.
 
-It is a good practice to refrain from using complex selectors to improve maintainability and readability of code, reduce specificity issues, enhance performance, prevent bugs etc.
+It is a good practice to refrain from using complex selectors to improve maintainability and readability of code, reduce specificity issues, enhance performance, prevent bugs, etc.
 
 ## Rule Details
 
-This rule limits the use of descendant selectors and disallows certain selectors or combinators to prevent overly complex CSS selectors.
+This rule limits how many IDs, classes, types, attributes, pseudo-classes, universals, compounds and combinators a selector can contain, and disallows certain selectors or combinators to prevent overly complex CSS selectors.
 
-### Options
+## Options
 
 This rule accepts an option object with the following properties:
 
 - `maxIds` (default: `Infinity`) -
-  Specify the number of `ID`s can be used in a selector.
-- `maxClasses` (default: - `Infinity`) -
-  Specify the number of `class`es can be used in a selector.
+  Specify the number of `ID`s that can be used in a selector.
+- `maxClasses` (default: `Infinity`) -
+  Specify the number of `class`es that can be used in a selector.
 - `maxTypes` (default: `Infinity`) -
-  Specify the number of `type`s can be used in a selector.
+  Specify the number of `type`s that can be used in a selector.
 - `maxAttributes` (default: `Infinity`) -
-  Specify the number of `attribute`s can be used in a selector.
+  Specify the number of `attribute`s that can be used in a selector.
 - `maxPseudoClasses` (default: `Infinity`) -
-  Specify the number of `pseudo-class`es can be used in a selector.
+  Specify the number of `pseudo-class`es that can be used in a selector.
 - `maxUniversals` (default: `Infinity`) -
-  Specify the number of `universal`s can be used in a selector.
+  Specify the number of `universal`s that can be used in a selector.
 - `maxCompounds` (default: `Infinity`) -
-  Specify the number of `compound`s can be used in a selector.
+  Specify the number of `compound`s that can be used in a selector.
 - `maxCombinators` (default: `Infinity`) -
-  Specify the number of `combinator`s can be used in a selector.
+  Specify the number of `combinator`s that can be used in a selector.
 - `disallowCombinators` (default: `[]`) -
   Specify an array of `combinator`s that are not allowed to be used.
 - `disallowPseudoClasses` (default: `[]`) -
@@ -41,9 +41,9 @@ This rule accepts an option object with the following properties:
 - `disallowAttributes` (default: `[]`) -
   Specify an array of `attribute`s that are not allowed to be used.
 - `disallowAttributeMatchers` (default: `[]`) -
-  Specify an array of `attribute-matchers`s or `operator`s that are not allowed to be used.
+  Specify an array of `attribute-matcher`s or `operator`s that are not allowed to be used.
 
-#### `maxIds`
+### `maxIds`
 
 Examples of **incorrect** code with `{ maxIds: 1 }`:
 
@@ -73,7 +73,7 @@ Examples of **correct** code with `{ maxIds: 1 }`:
 }
 ```
 
-#### `maxClasses`
+### `maxClasses`
 
 Examples of **incorrect** code with `{ maxClasses: 2 }`:
 
@@ -106,7 +106,7 @@ a.foo a.bar {
 }
 ```
 
-#### `maxTypes`
+### `maxTypes`
 
 Examples of **incorrect** code with `{ maxTypes: 2 }`:
 
@@ -135,7 +135,7 @@ button img:not(img.foo) {
 }
 ```
 
-#### `maxAttributes`
+### `maxAttributes`
 
 Examples of **incorrect** code with `{ maxAttributes: 1 }`:
 
@@ -161,7 +161,7 @@ Examples of **correct** code with `{ maxAttributes: 1 }`:
 }
 ```
 
-#### `maxPseudoClasses`
+### `maxPseudoClasses`
 
 Examples of **incorrect** code with `{ maxPseudoClasses: 1 }`:
 
@@ -185,9 +185,15 @@ button:hover + a {
 
 li:nth-child(2) a {
 }
+
+a:hover::before {
+}
+
+a:hover:before {
+}
 ```
 
-#### `maxUniversals`
+### `maxUniversals`
 
 Examples of **incorrect** code with `{ maxUniversals: 1 }`:
 
@@ -207,7 +213,7 @@ Examples of **correct** code with `{ maxUniversals: 1 }`:
 }
 ```
 
-#### `maxCompounds`
+### `maxCompounds`
 
 Examples of **incorrect** code with `{ maxCompounds: 2 }`:
 
@@ -234,7 +240,7 @@ button {
 }
 ```
 
-#### `maxCombinators`
+### `maxCombinators`
 
 Examples of **incorrect** code with `{ maxCombinators: 1 }`:
 
@@ -260,7 +266,7 @@ Examples of **correct** code with `{ maxCombinators: 1 }`:
 }
 ```
 
-#### `disallowCombinators`
+### `disallowCombinators`
 
 Examples of **incorrect** code with `{ disallowCombinators: [">"] }`:
 
@@ -286,7 +292,7 @@ Examples of **correct** code with `{ disallowCombinators: [">"] }`:
 }
 ```
 
-#### `disallowPseudoClasses`
+### `disallowPseudoClasses`
 
 Examples of **incorrect** code with `{ disallowPseudoClasses: ["hover"] }`:
 
@@ -312,27 +318,33 @@ a:not(.foo) {
 }
 ```
 
-#### `disallowPseudoElements`
+### `disallowPseudoElements`
 
-Examples of **incorrect** code with `{ disallowPseudoElements: ["marker"] }`:
+Examples of **incorrect** code with `{ disallowPseudoElements: ["marker", "before"] }`:
 
 ```css
-/* eslint css/selector-complexity: ["error", { disallowPseudoElements: ["marker"] }] */
+/* eslint css/selector-complexity: ["error", { disallowPseudoElements: ["marker", "before"] }] */
 
 li::marker {
 }
+
+a::before {
+}
+
+a:before {
+}
 ```
 
-Examples of **correct** code with `{ disallowPseudoElements: ["marker"] }`:
+Examples of **correct** code with `{ disallowPseudoElements: ["marker", "before"] }`:
 
 ```css
-/* eslint css/selector-complexity: ["error", { disallowPseudoElements: ["marker"] }] */
+/* eslint css/selector-complexity: ["error", { disallowPseudoElements: ["marker", "before"] }] */
 
 input::placeholder {
 }
 ```
 
-#### `disallowAttributes`
+### `disallowAttributes`
 
 Examples of **incorrect** code with `{ disallowAttributes: ["class", "alt"] }`:
 
@@ -358,7 +370,7 @@ img[src$=".foo"] {
 }
 ```
 
-#### `disallowAttributeMatchers`
+### `disallowAttributeMatchers`
 
 Examples of **incorrect** code with `{ disallowAttributeMatchers: ["*=", "^="] }`:
 

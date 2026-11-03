@@ -76,6 +76,16 @@ ruleTester.run("use-baseline", rule, {
 		`@supports selector(:fullscreen) {
 				h1:fullscreen { color: red; }
 		}`,
+		`@supports at-rule(@scope) {
+			@scope (.card) {
+				a { color: red; }
+			}
+		}`,
+		`@SUPPORTS AT-RULE(@SCOPE) {
+			@scope (.card) {
+				a { color: red; }
+			}
+		}`,
 		{
 			code: "@supports selector(&) {}",
 			options: [{ available: 2022 }],
@@ -232,6 +242,8 @@ ruleTester.run("use-baseline", rule, {
 				},
 			],
 		},
+		"@supports (--css: variables) { a { color: red; } }",
+		"@supports selector([popover]) { a { color: red; } }",
 	],
 	invalid: [
 		{
@@ -267,7 +279,7 @@ ruleTester.run("use-baseline", rule, {
 				{
 					messageId: "notBaselineProperty",
 					data: {
-						property: "accent-color",
+						property: "ACCENT-COLOR",
 						availability: "widely",
 					},
 					line: 1,
@@ -435,7 +447,7 @@ ruleTester.run("use-baseline", rule, {
 				{
 					messageId: "notBaselinePropertyValue",
 					data: {
-						property: "image-rendering",
+						property: "IMAGE-RENDERING",
 						value: "SMOOTH",
 						availability: "widely",
 					},
@@ -471,7 +483,7 @@ ruleTester.run("use-baseline", rule, {
 				{
 					messageId: "notBaselinePropertyValue",
 					data: {
-						property: "font-size",
+						property: "FONT-SIZE",
 						value: "REVERT-LAYER",
 						availability: 2021,
 					},
@@ -755,6 +767,38 @@ ruleTester.run("use-baseline", rule, {
 					column: 7,
 					endLine: 4,
 					endColumn: 18,
+				},
+			],
+		},
+		{
+			code: "@supports at-rule(@scope) {}\n@supports (color: red) {\n@scope (.card) { a { color: red; } }\n}",
+			errors: [
+				{
+					messageId: "notBaselineAtRule",
+					data: {
+						atRule: "scope",
+						availability: "widely",
+					},
+					line: 3,
+					column: 1,
+					endLine: 3,
+					endColumn: 7,
+				},
+			],
+		},
+		{
+			code: "@supports at-rule(@scope) {\n@view-transition { navigation: auto; }\n}",
+			errors: [
+				{
+					messageId: "notBaselineAtRule",
+					data: {
+						atRule: "view-transition",
+						availability: "widely",
+					},
+					line: 2,
+					column: 1,
+					endLine: 2,
+					endColumn: 17,
 				},
 			],
 		},
@@ -1059,6 +1103,38 @@ ruleTester.run("use-baseline", rule, {
 					column: 21,
 					endLine: 1,
 					endColumn: 26,
+				},
+			],
+		},
+		{
+			code: "@supports (--css: variables) { a { accent-color: auto; } }",
+			errors: [
+				{
+					messageId: "notBaselineProperty",
+					data: {
+						property: "accent-color",
+						availability: "widely",
+					},
+					line: 1,
+					column: 36,
+					endLine: 1,
+					endColumn: 48,
+				},
+			],
+		},
+		{
+			code: "@supports selector([popover]) { h1:fullscreen { color: red; } }",
+			errors: [
+				{
+					messageId: "notBaselineSelector",
+					data: {
+						selector: "fullscreen",
+						availability: "widely",
+					},
+					line: 1,
+					column: 35,
+					endLine: 1,
+					endColumn: 46,
 				},
 			],
 		},
